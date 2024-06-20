@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart Plus</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'landing.css' %}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            Cart <span>Plus</span>
+        </div>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+        </ul>
+        <div class="buttons">
+            <a href="#" class="signin">Sign In</a>
+            <a href="{% url 'data_entry:set_login' %}" class="btn btn-secondary mt-3">Login</a>
+        </div>
+    </nav>
+
+    <div class="container">
+      <img src="{% static 'gambar/logo.png' %}" alt="Cart Plus Logo">
+        <h1>CART PLUS</h1>
+        <p>Nikmati Pengalaman Belanja Terdepan</p>
+    </div>
+</body>
+</html>

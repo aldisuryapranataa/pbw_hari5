@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<!-- Formulir untuk entri data Icreation -->
+<form method="post">
+  {% csrf_token %}
+  <div class="form-row">
+    <div class="form-group col-md-6 mb-0">
+      {{ form.deskripsi|as_crispy_field }}
+    </div>
+    <div class="form-group col-md-6 mb-0">
+      {{ form.kategori|as_crispy_field }}
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6 mb-0">
+      {{ form.tanggal_mulai_pemodelan|as_crispy_field }}
+    </div>
+    <div class="form-group col-md-6 mb-0">
+      {{ form.tanggal_selesai_pemodelan|as_crispy_field }}
+    </div>
+    <div class="form-group col-md-6 mb-0">
+      {{ form.sub_deskripsi|as_crispy_field }}
+    </div>
+  </div>
+  <div class="form-group">
+    {{ form.status_penyelesaian|as_crispy_field }}
+  </div>
+  <button type="submit" class="btn btn-primary">Simpan</button>
+</form>
+
+<!-- Daftar Icreation -->
+<div class="alert alert-warning" role="alert">
+  Daftar Icreation
+</div>
+<table class="table table-bordered" id="kelompok_tbl">
+  <thead>
+    <tr>
+      <th scope="col">Deskripsi</th>
+      <th scope="col">Kategori</th>
+      <th scope="col">Tanggal Mulai Pemodelan</th>
+      <th scope="col">Tanggal Selesai Pemodelan</th>
+      <th scope="col">Status Penyelesaian</th>
+      <th scope="col">Sub Deskripsi</th> <!-- Perbaikan nama kolom -->
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in list_kelompok %} <!-- Ubah nama variabel untuk iterasi -->
+    <tr class="record">
+      <td>{{ item.deskripsi }}</td>
+      <td>{{ item.kategori }}</td>
+      <td>{{ item.tanggal_mulai_pemodelan }}</td>
+      <td>{{ item.tanggal_selesai_pemodelan }}</td>
+      <td>{{ item.status_penyelesaian }}</td>
+      <td>{{ item.sub_deskripsi }}</td> <!-- Perbaikan nama properti -->
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %} 

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Form</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'halaman_pertama.css' %}">
+
+</head>
+<body>
+    <h1>Tambah Proyek Baru</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_deskripsi_masalah">Deskripsi masalah:</label>
+            <div class="field">
+                {{ form.deskripsi_masalah }}
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="id_deskripsi_fitur">Deskripsi fitur:</label>
+            <div class="field">
+                {{ form.deskripsi_fitur }}
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="id_deskripsi_label">Deskripsi label:</label>
+            <div class="field">
+                {{ form.deskripsi_label }}
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="id_kategori_masalah">Kategori masalah:</label>
+            <div class="field">
+                {{ form.kategori_masalah }}
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="id_tanggal_mulai">Tanggal mulai:</label>
+            <div class="field">
+                {{ form.tanggal_mulai }}
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="id_tanggal_selesai">Tanggal selesai:</label>
+            <div class="field">
+                {{ form.tanggal_selesai }}
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="id_status_penyelesaian">Status penyelesaian:</label>
+            <div class="field">
+                {{ form.status_penyelesaian }}
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="id_catatan_akhir">Catatan akhir:</label>
+            <div class="field">
+                {{ form.catatan_akhir }}
+            </div>
+        </div>
+        <button type="submit">Simpan</button>
+    </form>
+
+
+    <!-- Tambahkan tabel untuk menampilkan daftar proyek -->
+    <h2>Daftar Proyek</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Deskripsi Masalah</th>
+                <th>Kategori Masalah</th>
+                <th>Tanggal Mulai</th>
+                <th>Tanggal Selesai</th>
+                <th>Status Penyelesaian</th>
+                <th>Waktu Perekaman</th>
+                <th>Waktu Update Terakhir</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for icreation in icreation_list %}
+            <tr>
+                <td>{{ icreation.deskripsi_masalah }}</td>
+                <td>{{ icreation.kategori_masalah }}</td>
+                <td>{{ icreation.tanggal_mulai }}</td>
+                <td>{{ icreation.tanggal_selesai }}</td>
+                <td>{{ icreation.status_penyelesaian }}</td>
+                <td>{{ icreation.waktu_perekaman }}</td>
+                <td>{{ icreation.waktu_update_terakhir }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

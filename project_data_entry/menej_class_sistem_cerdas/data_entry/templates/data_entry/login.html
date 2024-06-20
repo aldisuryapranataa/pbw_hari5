@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<head>
+    <style>
+        body {
+            background-color: rgb(59, 164, 245);
+            color: white; /* Opsional: Mengubah warna teks menjadi putih agar terlihat jelas di atas latar belakang gelap */
+        }
+        h1 {
+            text-align: center;
+        }
+
+    </style>
+</head>
+
+<div class="container mt-4">
+    <h1>Login  </h1>
+      
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form method="post" action="{% url 'data_entry:icreation_list' %}">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <a href="{% url 'data_entry:set_kelompok' %}" class="btn btn-secondary mt-3">Masuk</a>
+                <a href="{% url 'data_entry:set_home' %}" class="btn btn-secondary mt-3">Coba-coba</a>
+                <a href="{% url 'data_entry:icreation_list' %}" class="btn btn-secondary mt-3">1 lagi</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

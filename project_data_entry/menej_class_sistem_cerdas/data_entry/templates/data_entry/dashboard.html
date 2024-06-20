@@ -1,0 +1,157 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart Plus Dashboard</title>
+    <link rel="stylesheet" href="{% static 'Intelligence_creation/style.css' %}">
+</head>
+<body>
+    <div class="sidebar">
+        <a href="#" onclick="showSection('content')">Problem Framing</a>
+        <a href="#">Dataset</a>
+        <a href="#">Pemrosesan data</a>
+        <a href="#">Model & Refining</a>
+        <a href="#">Hasil Testing Dan Pelatihan</a>
+        <a href="#">Hasil Refining</a>
+        <a href="#">Komunikasi Teknis</a>
+        <a href="#">Komunikasi Manajemen</a>
+    </div>
+    <div class="main">
+        <div class="header">
+            <h1>Cart Plus</h1>
+            <div>
+                <img src="https://via.placeholder.com/40" alt="Profile">
+            </div>
+        </div>
+        <div id="content" class="content">
+            <h2>Welcome to Cart Plus !!!</h2>
+            <div class="form-group">
+                <label for="search-proyek">Nama Proyek:</label>
+                <input type="text" id="search-proyek" name="search-proyek">
+            </div>
+            <div class="actions">
+                <button class="search-button" onclick="searchProject()">Search</button>
+                <a href="{% url 'project_create' %}"><button class="create-button">Create</button></a>
+            </div>
+            <div class="table-container">
+                <table id="project-table">
+                    <thead>
+                        <tr>
+                            <th>Daftar Proyek</th>
+                            
+                            <ul>
+                                 {% for project in projects %}
+                                <li>{{ project.nama_proyek }}</li>
+                                </Q>{% endfor %}
+                                </ul>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for project in projects %}
+                        <tr>
+                            <td>{{ project.name }}</td>
+                            <td>
+                                <div class="button-group">
+                                    <a href="{% url 'project_edit' project.id %}"><button class="update-button">Update</button></a>
+                                    <a href="{% url 'project_detail' project.id %}"><button class="view-button">View</button></a>
+                                    <form action="{% url 'project_delete' project.id %}" method="post" style="display:inline;">
+                                        {% csrf_token %}
+                                        <button class="delete-button" type="submit">Delete</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div id="form-container" class="hidden">
+                <form id="project-form" method="post" action="{% url 'project_save' %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="nama-proyek">Nama Proyek:</label>
+                        <input type="text" id="nama-proyek" name="nama-proyek" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="hasil-problem-framing">Hasil Problem Framing:</label>
+                        <textarea id="hasil-problem-framing" name="hasil-problem-framing" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="input">Input:</label>
+                        <input type="text" id="input" name="input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="process">Process:</label>
+                        <input type="text" id="process" name="process" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="output">Output:</label>
+                        <input type="text" id="output" name="output" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit">Simpan</button>
+                    </div>
+                </form>
+            </div>
+            <div id="detail-container" class="detail-container hidden">
+                <h3>Detail Proyek</h3>
+                <p><span>Nama Proyek:</span> <span id="detail-nama-proyek"></span></p>
+                <p><span>Hasil Problem Framing:</span> <span id="detail-hasil-problem-framing"></span></p>
+                <p><span>Input:</span> <span id="detail-input"></span></p>
+                <p><span>Process:</span> <span id="detail-process"></span></p>
+                <p><span>Output:</span> <span id="detail-output"></span></p>
+            </div>
+        </div>
+    </div>
+    <script>
+    function saveProject(event) {
+        event.preventDefault();
+
+        const form = document.getElementById('project-form');
+        const formData = new FormData(form);
+
+        fetch("{% url 'project_save' %}", {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Update table with new project
+                const tbody = document.querySelector('#project-table tbody');
+                const newRow = document.createElement('tr');
+                newRow.innerHTML = `
+                    <td>${data.project.nama}</td>
+                    <td>
+                        <div class="button-group">
+                            <a href="{% url 'project_edit' 0 %}".replace('0', data.project.id)><button class="update-button">Update</button></a>
+                            <a href="{% url 'project_detail' 0 %}".replace('0', data.project.id)><button class="view-button">View</button></a>
+                            <form action="{% url 'project_delete' 0 %}".replace('0', data.project.id)" method="post" style="display:inline;">
+                                {% csrf_token %}
+                                <button class="delete-button" type="submit">Delete</button>
+                            </form>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(newRow);
+
+                // Clear form fields
+                form.reset();
+            } else {
+                alert("Failed to save project.");
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("An error occurred while saving project.");
+        });
+    }
+
+    document.getElementById('project-form').addEventListener('submit', saveProject);
+</script>
+</body>
+</html>
